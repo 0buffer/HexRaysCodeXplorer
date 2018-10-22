@@ -9,39 +9,18 @@ _   _          ______                _____           _     __   __      _
                             |___/                                 |_|</pre>
 
 ## changelist:
-1. #### Add support ida7.0/ida7.1 for macOS
+1. #### Add support ida7.0/ida7.1/ida7.2 for macOS
 
-   - target (need to  "brew install gcc@7",  import table "/usr/local/opt/gcc/lib/gcc/7/libstdc++.6.dylib")
-
-   ![ida7.0_mac_target](./img/ida7.1_mac_target.png)
-
-
-   	- build method
-
-      - Install gcc (Xcode clang not support HexRaysCodeXplorer)
-
-        ```shell
-        brew install gcc@7
-        ```
-
-
-      - Close the comment  in CMakeLists.txt
-
-        ```cmake
-        SET(CMAKE_C_COMPILER "/usr/local/bin/gcc-7")
-        SET(CMAKE_CXX_COMPILER "/usr/local/bin/g++-7")
-        ```
-    
+   ![ida7.0_mac_target](./img/ida7.2.png)
+   
       - build script
-    
+   
         ```shell
-        ida-cmake/build.py -i ~/Downloads/idasdk70 -t 7.1 --idaq-path "/Applications/IDA_Pro_7.1/ida.app/Contents/MacOS"
+        ida-cmake/build.py -i ~/Downloads/idasdk72 -t 7.2 --idaq-path "/Applications/IDA Pro 7.2/ida.app/Contents/MacOS"
         ```
-    
-      
-    
-    
 
+​      
+​    
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![Code Climate](https://codeclimate.com/github/REhints/HexRaysCodeXplorer/badges/gpa.svg)](https://codeclimate.com/github/REhints/HexRaysCodeXplorer)
 [![Issue Count](https://codeclimate.com/github/REhints/HexRaysCodeXplorer/badges/issue_count.svg)](https://codeclimate.com/github/REhints/HexRaysCodeXplorer)
