@@ -125,14 +125,17 @@ __Compiling__:
 * Build `Release | x64` and `Release x64 | x64` configurations
 
 ***Linux***:
-* cd src/HexRaysCodeExplorer/
+* cd src/HexRaysCodeXplorer/
 * IDA_DIR=<PATH_TO_IDA> IDA_SDK=<PATH_TO_IDA_SDK> EA64=0 make -f makefile.lnx
 * IDA_DIR=<PATH_TO_IDA> IDA_SDK=<PATH_TO_IDA_SDK> EA64=0 make -f makefile.lnx
 
 ***Mac***:
-* cd src/HexRaysCodeExplorer/
+* cd src/HexRaysCodeXplorer/
 * IDA_DIR=<PATH_TO_IDA> IDA_SDK=<PATH_TO_IDA_SDK> make -f makefile.mac
 * The Mac makefile might need some hand editing, pull requests welcome!
+* IDA 7.0 `.pmc` file extension should be `.dylib`
+* bash$ `export IDA_DIR="/Applications/IDA\ Pro\ 7.0/ida.app/Contents/MacOS" && export IDA_SDK="/Applications/IDA\ Pro\ 7.0/ida.app/Contents/MacOS/idasdk" && make -f makefile7.mac`
+* Or open project in Xcode `HexRaysCodeXplorer.xcodeproj`
 
 ============================================================================
 
