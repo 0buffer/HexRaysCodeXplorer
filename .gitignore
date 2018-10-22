@@ -20,3 +20,6 @@ build-7.1-64/*
 build
 build-7.2-32
 build-7.2-64
+
+src/HexRaysCodeXplorer.xcodeproj/project.xcworkspace/xcuserdata
+src/HexRaysCodeXplorer.xcodeproj/xcuserdata
