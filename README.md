@@ -18,6 +18,25 @@ _   _          ______                _____           _     __   __      _
         ```shell
         ida-cmake/build.py -i ~/Downloads/idasdk72 -t 7.2 --idaq-path "/Applications/IDA Pro 7.2/ida.app/Contents/MacOS"
         ```
+      - Generate Xcode
+      64bit
+      ```
+      mkdir build-64 && cd build-64
+      cmake -G Xcode -DIDA_SDK=/Users/shared/idasdk72 -DIDA_VERSION=720 -DIDA_BINARY_64=ON -DIDA_INSTALL_DIR=/Applications/IDA_Pro_7.2/ida.app/Contents/MacOS -DCMAKE_INSTALL_PREFIX=/Applications/IDA_Pro_7.2/ida.app/Contents/MacOS -DIDA_EA_64=TRUE ..
+      ```
+      `note: -DIDA_EA_64=TRUE`
+     
+      32bit
+      ```
+      mkdir build-32 && cd build-32
+      cmake -G Xcode -DIDA_SDK=/Users/shared/idasdk72 -DIDA_VERSION=720 -DIDA_BINARY_64=ON -DIDA_INSTALL_DIR=/Applications/IDA_Pro_7.2/ida.app/Contents/MacOS -DCMAKE_INSTALL_PREFIX=/Applications/IDA_Pro_7.2/ida.app/Contents/MacOS -DIDA_EA_64=FALSE ..
+      ```
+      `note: -DIDA_EA_64=FALSE`
+      
+      - compile & install
+      ```
+      cmake --build . -j 4 --clean-first --target install -- VERBOSE=1
+      ```
 
 ​      
 ​    
