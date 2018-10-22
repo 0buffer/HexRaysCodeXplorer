@@ -16,7 +16,7 @@ _   _          ______                _____           _     __   __      _
       - build script
    
         ```shell
-        ida-cmake/build.py -i /Users/shared/idasdk72 -t 7.2 --idaq-path "/Applications/IDA Pro 7.2/ida.app/Contents/MacOS"
+        ida-cmake/build.py -i /Users/shared/idasdk72 -t 7.2 --idaq-path "/Applications/IDA_Pro_7.2/ida.app/Contents/MacOS"
         ```
       - Generate Xcode
         - 64bit
