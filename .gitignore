@@ -17,3 +17,6 @@
 /src/*.opendb
 build-7.1-32/*
 build-7.1-64/*
+build
+build-7.2-32
+build-7.2-64

@@ -345,8 +345,11 @@ static bool idaapi display_ctree_graph(void *ud)
 	gi->widget = widget;
 	gi->gv = create_graph_viewer("ctree", id, gr_callback, gi, 0, widget);
 	activate_widget(widget, true);
-	display_widget(widget, WOPN_TAB | WOPN_MENU);
-
+	#if (defined(IDA_SDK_VERSION) && IDA_SDK_VERSION == 720)
+		display_widget(widget, WOPN_TAB);
+	#else
+		display_widget(widget, WOPN_TAB | WOPN_MENU);
+	#endif
 	viewer_fit_window(gi->gv);
 
 	return true;

@@ -255,8 +255,16 @@ tid_t create_vtbl_struct(ea_t vtbl_addr, ea_t vtbl_addr_end, const qstring& vtbl
 		const char* struc_member_name = nullptr;
 		if (is_func(method_flags)) {
 			method_name = get_short_name(method_ea);
-			if (!method_name.empty())
+
+			if (!method_name.empty()) {
+
+				size_t bp = method_name.find('(', 0);
+
+				if (bp != qstring::npos) 
+					method_name = method_name.substr(0, bp);
+
 				struc_member_name = method_name.c_str();
+			}
 		}
 #ifndef __EA64__
 		add_struc_member(new_struc, NULL, offset, dword_flag(), NULL, sizeof(ea_t));
@@ -264,9 +272,17 @@ tid_t create_vtbl_struct(ea_t vtbl_addr, ea_t vtbl_addr_end, const qstring& vtbl
 		add_struc_member(new_struc, NULL, offset, qword_flag(), NULL, sizeof(ea_t));
 #endif
 		if (struc_member_name) {
+			set_member_cmt(get_member(new_struc, offset), get_short_name(method_ea).c_str(), true);
+
 			if (!set_member_name(new_struc, offset, struc_member_name)) {
-				get_ea_name(&method_name, method_ea);
-				set_member_name(new_struc, offset, struc_member_name);
+
+				method_name.cat_sprnt("_%X", offset);
+				struc_member_name = method_name.c_str();
+
+				if (!set_member_name(new_struc, offset, struc_member_name)) {
+					get_ea_name(&method_name, method_ea);
+					set_member_name(new_struc, offset, method_name.c_str());
+				}
 			}
 		}
 
@@ -327,19 +343,8 @@ void find_vtables()
 		while (ea_text <= seg->end_ea)
 			process_vtbl(ea_text);
 
-	} 
-	else if (segment_t *seg = get_segm_by_name("__const")) {
-		logmsg(DEBUG, "search_objects() - __const exist\n");
-
-		segSet.insert(seg);
-
-		ea_t ea_text = seg->start_ea;
-		while (ea_text <= seg->end_ea)
-			process_vtbl(ea_text);
-
-	}
-	else {
-		logmsg(DEBUG, "search_objects() - result does not exist\n");
+	} else {
+		logmsg(DEBUG, "search_objects() - .rdata does not exist\n");
 	}
 
 	// look also at .data section
@@ -357,14 +362,6 @@ void find_vtables()
 			if (get_segm_name(&segm_name, seg) > 0 && segm_name == ".data")
 			{
 				logmsg(DEBUG, "search_objects() - .data exist\n");
-				segSet.insert(seg);
-				ea_t ea_text = seg->start_ea;
-				while (ea_text <= seg->end_ea)
-					process_vtbl(ea_text);
-			}
-			else if (get_segm_name(&segm_name, seg) > 0 && segm_name == "__data")
-			{
-				logmsg(DEBUG, "search_objects() - __data exist\n");
 				segSet.insert(seg);
 				ea_t ea_text = seg->start_ea;
 				while (ea_text <= seg->end_ea)
@@ -498,7 +495,11 @@ bool idaapi show_vtbl_xrefs_window_cb()
 	si->cv = create_custom_viewer("", &s1, &s2, &s1, nullptr, &si->sv, nullptr, nullptr, widget);
 	si->codeview = create_code_viewer(si->cv, CDVF_STATUSBAR, widget);
 	set_custom_viewer_handler(si->cv, CVH_DBLCLICK, (void *)ct_vtbl_xrefs_window_dblclick);
-	display_widget(widget, WOPN_ONTOP | WOPN_RESTORE);
+	#if (defined(IDA_SDK_VERSION) && IDA_SDK_VERSION == 720)
+		display_widget(widget, WOPN_RESTORE);
+	#else
+		display_widget(widget, WOPN_ONTOP | WOPN_RESTORE);
+	#endif
 
 	return true;
 }
@@ -701,6 +702,10 @@ void object_explorer_form_init()
 	cvh.dblclick = ct_object_explorer_dblclick;
 	set_custom_viewer_handlers(si->cv, &cvh, si);
 
-	hook_to_notification_point(HT_UI, ui_object_explorer_callback, si);
-	display_widget(widget, WOPN_TAB | WOPN_MENU | WOPN_RESTORE);
+	hook_to_notification_point(HT_UI, ui_object_explorer_callback, si);	
+	#if (defined(IDA_SDK_VERSION) && IDA_SDK_VERSION == 720)
+		display_widget(widget, WOPN_TAB | WOPN_RESTORE);
+	#else
+		display_widget(widget, WOPN_TAB | WOPN_MENU | WOPN_RESTORE);
+	#endif
 }

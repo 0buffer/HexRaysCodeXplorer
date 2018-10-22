@@ -54,7 +54,11 @@ bool idaapi show_string_in_custom_view(void *ud, const qstring& title, const qst
 	si->cv = create_custom_viewer((title + "_").c_str(), &s1, &s2, &s1, nullptr, &si->sv, nullptr, nullptr, widget);
 	si->codeview = create_code_viewer(si->cv, CDVF_NOLINES, widget);
 	set_custom_viewer_handlers(si->cv, nullptr, si);
-	display_widget(widget, WOPN_ONTOP | WOPN_RESTORE);
+	#if (defined(IDA_SDK_VERSION) && IDA_SDK_VERSION == 720)
+		display_widget(widget, WOPN_RESTORE);
+	#else
+		display_widget(widget, WOPN_ONTOP | WOPN_RESTORE);
+	#endif
 
 	return false;
 }
